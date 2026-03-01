@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Sun, Moon, Plane } from 'lucide-react';
+import { Plus, Sun, Moon } from 'lucide-react';
 import { supabase, Client } from './lib/supabase';
 import { useTheme } from './contexts/ThemeContext';
 import ClientForm from './components/ClientForm';
@@ -111,45 +111,43 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <Plane className="text-white" size={24} />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  NEXUS
-                </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Gestión de clientes y comisiones
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                aria-label="Cambiar tema"
-              >
-                {theme === 'light' ? (
-                  <Moon className="text-gray-700 dark:text-gray-300" size={20} />
-                ) : (
-                  <Sun className="text-gray-300" size={20} />
-                )}
-              </button>
-              <button
-                onClick={() => setShowForm(true)}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
-              >
-                <Plus size={20} />
-                <span className="hidden sm:inline">Nuevo Cliente</span>
-              </button>
-            </div>
+      <header className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-24 border-b border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-6xl sm:text-7xl font-bold text-white mb-4 tracking-tight">
+              NEXUS
+            </h1>
+            <p className="text-xl sm:text-2xl text-slate-300 font-light">
+              Private Travel CRM
+            </p>
           </div>
         </div>
       </header>
+
+      <div className="sticky top-0 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-end space-x-3">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              aria-label="Cambiar tema"
+            >
+              {theme === 'light' ? (
+                <Moon className="text-gray-700 dark:text-gray-300" size={20} />
+              ) : (
+                <Sun className="text-gray-300" size={20} />
+              )}
+            </button>
+            <button
+              onClick={() => setShowForm(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+            >
+              <Plus size={20} />
+              <span className="hidden sm:inline">Nuevo Cliente</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
