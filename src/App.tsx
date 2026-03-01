@@ -149,47 +149,69 @@ function App() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Clientes</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">{clients.length}</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pendientes</p>
-            <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
-              {pendingCount}
-            </p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pagados</p>
-            <p className="text-3xl font-bold text-green-600 dark:text-green-400">{paidCount}</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Comisión Total</p>
-            <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-              ${totalCommission.toFixed(2)}
-            </p>
-          </div>
-        </div>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+            Clients
+          </h2>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-              Lista de Clientes
-            </h2>
-            {loading ? (
-              <div className="text-center py-12">
-                <p className="text-gray-500 dark:text-gray-400">Cargando...</p>
+          {loading ? (
+            <div className="flex justify-center py-16">
+              <p className="text-gray-500 dark:text-gray-400">Cargando...</p>
+            </div>
+          ) : clients.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 max-w-md w-full text-center">
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                  No clients yet
+                </p>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  Add Client
+                </button>
               </div>
-            ) : (
-              <ClientTable
-                clients={clients}
-                onEdit={handleEdit}
-                onAddPayment={handleAddPayment}
-              />
-            )}
-          </div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Clientes</p>
+                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{clients.length}</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pendientes</p>
+                  <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
+                    {pendingCount}
+                  </p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pagados</p>
+                  <p className="text-3xl font-bold text-green-600 dark:text-green-400">{paidCount}</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Comisión Total</p>
+                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    ${totalCommission.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                    Lista de Clientes
+                  </h3>
+                  <ClientTable
+                    clients={clients}
+                    onEdit={handleEdit}
+                    onAddPayment={handleAddPayment}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </main>
 
