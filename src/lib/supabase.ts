@@ -7,14 +7,20 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export interface Client {
   id: string;
-  name: string;
-  phone: string;
-  destination: string;
-  travel_date: string;
+  nombre: string;
+  telefono: string;
+  destino: string;
+  fecha_de_viaje: string;
   free_amount: number;
   my_commission: number;
   monto_pagado: number;
-  status: 'pending' | 'paid' | 'completed';
+  estado: string;
+  notas?: string;
+  precio_cotizado?: number;
+  atendido?: boolean;
+  leido?: boolean;
+  compra_confirmada?: boolean;
+  recordatorio_viaje?: string;
   created_at: string;
   updated_at: string;
 }

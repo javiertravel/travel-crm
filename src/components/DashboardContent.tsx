@@ -7,8 +7,8 @@ interface DashboardContentProps {
 
 export default function DashboardContent({ clients, loading }: DashboardContentProps) {
   const totalClients = clients.length;
-  const pendingCount = clients.filter((c) => c.status === 'pending').length;
-  const paidCount = clients.filter((c) => c.status === 'paid').length;
+  const pendingCount = clients.filter((c) => c.estado === 'pendiente').length;
+  const paidCount = clients.filter((c) => c.estado === 'pagado').length;
   const totalCommission = clients.reduce((sum, c) => sum + (c.my_commission || 0), 0);
 
   const stats = [
@@ -82,23 +82,23 @@ export default function DashboardContent({ clients, loading }: DashboardContentP
               <div key={idx} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">{client.name.charAt(0)}</span>
+                    <span className="text-white font-bold text-sm">{client.nombre.charAt(0)}</span>
                   </div>
                   <div>
-                    <p className="text-white font-medium">{client.name}</p>
-                    <p className="text-gray-400 text-sm">{client.phone}</p>
+                    <p className="text-white font-medium">{client.nombre}</p>
+                    <p className="text-gray-400 text-sm">{client.telefono}</p>
                   </div>
                 </div>
                 <span
                   className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                    client.status === 'pending'
+                    client.estado === 'pendiente'
                       ? 'bg-yellow-100 text-yellow-800'
-                      : client.status === 'paid'
+                      : client.estado === 'pagado'
                       ? 'bg-green-100 text-green-800'
                       : 'bg-blue-100 text-blue-800'
                   }`}
                 >
-                  {client.status}
+                  {client.estado}
                 </span>
               </div>
             ))}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, CheckCircle } from 'lucide-react';
 import { Client } from '../lib/supabase';
 
 interface ClientFormProps {
@@ -10,26 +10,44 @@ interface ClientFormProps {
 
 export default function ClientForm({ client, onSave, onClose }: ClientFormProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    notes: '',
+    nombre: '',
+    telefono: '',
+    destino: '',
+    fecha_de_viaje: '',
+    notas: '',
+    precio_cotizado: '',
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (client) {
       setFormData({
-        name: client.name || '',
-        email: client.email || '',
-        phone: client.phone || '',
-        notes: client.notes || '',
+        nombre: client.nombre || '',
+        telefono: client.telefono || '',
+        destino: client.destino || '',
+        fecha_de_viaje: client.fecha_de_viaje || '',
+        notas: client.notas || '',
+        precio_cotizado: client.precio_cotizado?.toString() || '',
       });
     }
   }, [client]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    const submitData: Partial<Client> = {
+      nombre: formData.nombre,
+      telefono: formData.telefono,
+      destino: formData.destino,
+      fecha_de_viaje: formData.fecha_de_viaje,
+      notas: formData.notas,
+      precio_cotizado: formData.precio_cotizado ? parseFloat(formData.precio_cotizado) : undefined,
+      estado: 'pendiente',
+    };
+    onSave(submitData);
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 2000);
   };
 
   return (
@@ -37,7 +55,7 @@ export default function ClientForm({ client, onSave, onClose }: ClientFormProps)
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Add Client
+            {client ? 'Edit Client' : 'Add Client'}
           </h2>
           <button
             onClick={onClose}
@@ -50,56 +68,92 @@ export default function ClientForm({ client, onSave, onClose }: ClientFormProps)
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Name
+              Nombre
             </label>
             <input
               type="text"
               required
               placeholder="Enter client name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={formData.nombre}
+              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Enter client email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Phone
+              Teléfono
             </label>
             <input
               type="tel"
+              required
               placeholder="Enter phone number"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              value={formData.telefono}
+              onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Notes
+              Destino
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Enter destination"
+              value={formData.destino}
+              onChange={(e) => setFormData({ ...formData, destino: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Fecha de Viaje
+            </label>
+            <input
+              type="date"
+              required
+              value={formData.fecha_de_viaje}
+              onChange={(e) => setFormData({ ...formData, fecha_de_viaje: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Precio Cotizado
+            </label>
+            <input
+              type="number"
+              placeholder="Enter quoted price"
+              step="0.01"
+              value={formData.precio_cotizado}
+              onChange={(e) => setFormData({ ...formData, precio_cotizado: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Notas
             </label>
             <textarea
               placeholder="Add any notes"
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              value={formData.notas}
+              onChange={(e) => setFormData({ ...formData, notas: e.target.value })}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-none"
             />
           </div>
+
+          {showSuccess && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg">
+              <CheckCircle size={18} className="text-green-600 dark:text-green-400" />
+              <p className="text-sm text-green-600 dark:text-green-400">Client saved successfully</p>
+            </div>
+          )}
 
           <div className="flex gap-3 pt-2">
             <button

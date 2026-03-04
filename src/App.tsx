@@ -54,10 +54,13 @@ function App() {
       }
 
       await loadClients();
-      setShowForm(false);
-      setEditingClient(null);
+      setTimeout(() => {
+        setShowForm(false);
+        setEditingClient(null);
+      }, 1500);
     } catch (error) {
       console.error('Error saving client:', error);
+      alert('Error saving client. Please try again.');
     }
   };
 
@@ -177,7 +180,7 @@ function App() {
 
       {paymentClient && (
         <PaymentDialog
-          clientName={paymentClient.name}
+          clientName={paymentClient.nombre}
           currentMontoPagado={paymentClient.monto_pagado}
           onConfirm={handlePaymentSubmit}
           onClose={() => setPaymentClient(null)}

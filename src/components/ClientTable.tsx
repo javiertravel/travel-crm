@@ -8,15 +8,15 @@ interface ClientTableProps {
 }
 
 const statusLabels = {
-  pending: 'Pendiente',
-  paid: 'Pagado',
-  completed: 'Completado',
+  pendiente: 'Pendiente',
+  pagado: 'Pagado',
+  completado: 'Completado',
 };
 
 const statusColors = {
-  pending: 'bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200 font-semibold',
-  paid: 'bg-green-100 text-green-900 dark:bg-green-900/40 dark:text-green-200 font-semibold',
-  completed: 'bg-blue-100 text-blue-900 dark:bg-blue-900/40 dark:text-blue-200 font-semibold',
+  pendiente: 'bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200 font-semibold',
+  pagado: 'bg-green-100 text-green-900 dark:bg-green-900/40 dark:text-green-200 font-semibold',
+  completado: 'bg-blue-100 text-blue-900 dark:bg-blue-900/40 dark:text-blue-200 font-semibold',
 };
 
 export default function ClientTable({ clients, onEdit }: ClientTableProps) {
@@ -75,16 +75,16 @@ export default function ClientTable({ clients, onEdit }: ClientTableProps) {
                 className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-900 dark:text-white font-medium">
-                  {client.name}
+                  {client.nombre}
                 </td>
                 <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
-                  {client.phone}
+                  {client.telefono}
                 </td>
                 <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
-                  {client.destination}
+                  {client.destino}
                 </td>
                 <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
-                  {new Date(client.travel_date).toLocaleDateString('es-ES')}
+                  {new Date(client.fecha_de_viaje).toLocaleDateString('es-ES')}
                 </td>
                 <td className="py-3 px-4 text-right text-gray-900 dark:text-white font-medium">
                   ${client.free_amount.toFixed(2)}
@@ -98,10 +98,10 @@ export default function ClientTable({ clients, onEdit }: ClientTableProps) {
                 <td className="py-3 px-4 text-center">
                   <span
                     className={`inline-block px-3 py-1.5 rounded-full text-xs ${
-                      statusColors[client.status]
+                      statusColors[client.estado as keyof typeof statusColors]
                     }`}
                   >
-                    {statusLabels[client.status]}
+                    {statusLabels[client.estado as keyof typeof statusLabels]}
                   </span>
                 </td>
                 <td className="py-3 px-4 text-center">
@@ -137,14 +137,14 @@ export default function ClientTable({ clients, onEdit }: ClientTableProps) {
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-900 dark:text-white text-lg leading-tight">
-                  {client.name}
+                  {client.nombre}
                 </h3>
                 <span
                   className={`inline-block px-3 py-1.5 rounded-full text-xs mt-2 ${
-                    statusColors[client.status]
+                    statusColors[client.estado as keyof typeof statusColors]
                   }`}
                 >
-                  {statusLabels[client.status]}
+                  {statusLabels[client.estado as keyof typeof statusLabels]}
                 </span>
               </div>
               <div className="flex gap-1 flex-shrink-0">
@@ -168,15 +168,15 @@ export default function ClientTable({ clients, onEdit }: ClientTableProps) {
             <div className="space-y-3">
               <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
                 <Phone size={16} className="mr-3 flex-shrink-0" />
-                {client.phone}
+                {client.telefono}
               </div>
               <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
                 <MapPin size={16} className="mr-3 flex-shrink-0" />
-                {client.destination}
+                {client.destino}
               </div>
               <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
                 <Calendar size={16} className="mr-3 flex-shrink-0" />
-                {new Date(client.travel_date).toLocaleDateString('es-ES')}
+                {new Date(client.fecha_de_viaje).toLocaleDateString('es-ES')}
               </div>
             </div>
 
