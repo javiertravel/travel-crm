@@ -1,4 +1,4 @@
-import { Edit2, Phone, MapPin, Calendar, DollarSign, Plus } from 'lucide-react';
+import { CreditCard as Edit2, Phone, MapPin, Calendar, DollarSign, Plus } from 'lucide-react';
 import { Client } from '../lib/supabase';
 
 interface ClientTableProps {
